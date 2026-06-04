@@ -1,0 +1,82 @@
+---
+aid: sapienza-university-of-rome
+name: Sapienza University of Rome
+description: >-
+  Sapienza University of Rome (Sapienza Università di Roma) is Italy's largest
+  university and ranked #132 in the QS World University Rankings 2025. Its public
+  machine-readable footprint is centered on research and library data rather than
+  a unified developer portal: the IRIS institutional research catalogue exposes a
+  DSpace OAI-PMH endpoint for harvesting research metadata, and the Sapienza
+  Library System (Sistema Bibliotecario Sapienza) publishes open data and linked
+  data following the 5-star open data model. There is no single official,
+  documented public REST API gateway; identity is federated via the Italian IDEM
+  Shibboleth/SAML federation. A GitHub organization carrying the Sapienza name
+  exists but hosts research and coursework projects rather than official platform APIs.
+type: Index
+position: Consumer
+access: 3rd-Party
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/sapienza-university-of-rome/refs/heads/main/apis.yml
+tags:
+  - Education
+  - Higher Education
+  - University
+  - Research
+  - Open Data
+  - Library
+  - OAI-PMH
+  - Italy
+created: '2026-06-03'
+modified: '2026-06-03'
+specificationVersion: '0.19'
+apis:
+  - aid: sapienza-university-of-rome:iris-oai-pmh
+    name: IRIS Research Catalogue OAI-PMH
+    description: >-
+      OAI-PMH 2.0 metadata harvesting interface for IRIS, Sapienza's institutional
+      research information system / repository (DSpace platform developed by CINECA).
+      The endpoint (repositoryName "IRIS - UNIROMA1 - prod") supports standard OAI-PMH
+      verbs (Identify, ListRecords, ListMetadataFormats, etc.) for harvesting Sapienza
+      research-product metadata. Verified live returning valid OAI-PMH 2.0 XML.
+    humanURL: https://www.uniroma1.it/en/pagina/iris-support
+    baseURL: https://iris.uniroma1.it/oai/request
+    tags: [ Research, Repository, OAI-PMH, DSpace, Metadata ]
+    properties:
+      - type: Documentation
+        url: https://www.uniroma1.it/en/pagina/iris-support
+      - type: Repository
+        url: https://iris.uniroma1.it/
+  - aid: sapienza-university-of-rome:library-open-data
+    name: Sapienza Library System Open Data & Linked Data
+    description: >-
+      Open data and linked data publishing from the Sistema Bibliotecario Sapienza
+      (Sapienza Library System), providing library and digital-resource datasets under
+      CC BY 4.0 following the 5-star open data model and a DCAT-AP_IT profile. Datasets
+      are catalogued and downloadable; a linked data service is also published. No
+      formal documented REST API is provided beyond the dataset catalogue and linked
+      data resources.
+    humanURL: https://sbs.uniroma1.it/data/opendata/
+    tags: [ Open Data, Linked Data, Library, DCAT, CC-BY ]
+    properties:
+      - type: Documentation
+        url: https://sbs.uniroma1.it/data/opendata/
+      - type: LinkedData
+        url: https://sbs.uniroma1.it/data/linkeddata
+common:
+  - type: Website
+    url: https://www.uniroma1.it/en
+  - type: GitHub
+    url: https://github.com/Sapienza-University-Rome
+  - type: LinkedIn
+    url: https://www.linkedin.com/school/sapienza-universita-di-roma/
+  - type: Plans
+    url: plans/sapienza-university-of-rome-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/sapienza-university-of-rome-rate-limits.yml
+  - type: FinOps
+    url: finops/sapienza-university-of-rome-finops.yml
+  - type: Review
+    url: review.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

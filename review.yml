@@ -1,0 +1,41 @@
+---
+name: Sapienza University of Rome
+description: Sapienza University of Rome public developer/API footprint review for APIs.json cataloging.
+url: https://raw.githubusercontent.com/api-evangelist/sapienza-university-of-rome/refs/heads/main/review.yml
+created: '2026-06-03'
+modified: '2026-06-03'
+reviews:
+  - date: '2026-06-03'
+    rating: 2
+    summary: >-
+      Sapienza has no unified, documented public developer portal or REST API gateway.
+      The strongest verified machine-readable surface is the IRIS DSpace OAI-PMH endpoint,
+      which I confirmed live returns valid OAI-PMH 2.0 XML (repositoryName "IRIS - UNIROMA1 - prod").
+      The Sapienza Library System publishes open data and linked data (CC BY 4.0, 5-star model),
+      confirmed reachable but without a formal API spec. A Shibboleth/SAML (IDEM federation) login
+      backs identity but exposes no public API docs. The "Sapienza-University-Rome" GitHub org is
+      research/coursework code, not an official platform org. No endpoints were fabricated; only
+      live-probed or page-confirmed properties are cataloged. The alternate IRIS openaire4 OAI path
+      did not resolve during probing and was left out as unverified.
+    endpoints:
+      - url: https://iris.uniroma1.it/oai/request?verb=Identify
+        status: 200
+        note: Verified live, returns valid OAI-PMH 2.0 XML (IRIS UNIROMA1 prod, DSpace/CINECA).
+      - url: https://iris.uniroma1.it/oai/openaire4?verb=Identify
+        status: 0
+        note: Did not resolve / timed out during probing; left uncataloged as unverified.
+      - url: https://iris.uniroma1.it/
+        status: 200
+        note: IRIS institutional research repository home, reachable.
+      - url: https://sbs.uniroma1.it/data/opendata/
+        status: 200
+        note: Library System open data publishing page, reachable; datasets under CC BY 4.0.
+      - url: https://sbs.uniroma1.it/data/linkeddata
+        status: 200
+        note: Library System linked data service page, reachable.
+      - url: https://www.uniroma1.it/en/pagina-strutturale/home
+        status: 200
+        note: Official institutional website (English), reachable.
+      - url: https://github.com/Sapienza-University-Rome
+        status: 200
+        note: GitHub org with research/coursework repos; not an official platform API org.
