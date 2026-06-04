@@ -1,0 +1,84 @@
+{
+  "@context": {
+    "schema": "https://schema.org/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "dct": "http://purl.org/dc/terms/",
+    "oai": "http://www.openarchives.org/OAI/2.0/",
+    "@vocab": "https://www.uniroma1.it/ns#",
+
+    "Institution": "schema:CollegeOrUniversity",
+    "name": "schema:name",
+    "description": "schema:description",
+    "url": "schema:url",
+    "logo": "schema:logo",
+    "sameAs": "schema:sameAs",
+    "foundingLocation": "schema:foundingLocation",
+    "department": "schema:department",
+
+    "Catalog": "dcat:Catalog",
+    "Dataset": {
+      "@id": "dcat:Dataset",
+      "@type": "@id"
+    },
+    "distribution": "dcat:distribution",
+    "Distribution": "dcat:Distribution",
+    "accessURL": {
+      "@id": "dcat:accessURL",
+      "@type": "@id"
+    },
+    "downloadURL": {
+      "@id": "dcat:downloadURL",
+      "@type": "@id"
+    },
+    "license": {
+      "@id": "dct:license",
+      "@type": "@id"
+    },
+    "format": "dct:format",
+    "issued": {
+      "@id": "dct:issued",
+      "@type": "schema:Date"
+    },
+    "modified": {
+      "@id": "dct:modified",
+      "@type": "schema:Date"
+    },
+
+    "Repository": "schema:DataCatalog",
+    "repositoryName": "oai:repositoryName",
+    "baseURL": {
+      "@id": "oai:baseURL",
+      "@type": "@id"
+    },
+    "protocolVersion": "oai:protocolVersion",
+    "earliestDatestamp": "oai:earliestDatestamp",
+    "metadataFormat": "oai:metadataPrefix"
+  },
+  "@type": "Institution",
+  "@id": "https://www.uniroma1.it/en",
+  "name": "Sapienza University of Rome",
+  "description": "Sapienza Universita di Roma, Italy's largest university, publishing research metadata via the IRIS OAI-PMH repository and open/linked data via the Sapienza Library System.",
+  "url": "https://www.uniroma1.it/en",
+  "sameAs": [
+    "https://github.com/Sapienza-University-Rome",
+    "https://www.linkedin.com/school/sapienza-universita-di-roma/"
+  ],
+  "department": [
+    {
+      "@type": "Repository",
+      "@id": "https://iris.uniroma1.it/",
+      "name": "IRIS Research Catalogue",
+      "repositoryName": "IRIS - UNIROMA1 - prod",
+      "baseURL": "https://iris.uniroma1.it/oai/request",
+      "protocolVersion": "2.0",
+      "earliestDatestamp": "2015-05-04T13:12:45Z"
+    },
+    {
+      "@type": "Catalog",
+      "@id": "https://sbs.uniroma1.it/data/opendata/",
+      "name": "Sapienza Library System Open Data & Linked Data",
+      "url": "https://sbs.uniroma1.it/data/opendata/",
+      "license": "https://creativecommons.org/licenses/by/4.0/"
+    }
+  ]
+}
