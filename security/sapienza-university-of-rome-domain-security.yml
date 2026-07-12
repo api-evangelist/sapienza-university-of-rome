@@ -1,0 +1,28 @@
+generated: '2026-07-11'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: www.uniroma1.it
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Nov  6 14:42:36 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: iris.uniroma1.it
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Nov 19 10:09:39 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: sbs.uniroma1.it
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Aug 12 12:24:48 2026 GMT
+  hsts: false
+domains:
+- domain: uniroma1.it
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: reject

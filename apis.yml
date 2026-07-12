@@ -63,6 +63,8 @@ apis:
       - type: LinkedData
         url: https://sbs.uniroma1.it/data/linkeddata
 common:
+  - type: DomainSecurity
+    url: security/sapienza-university-of-rome-domain-security.yml
   - type: Website
     url: https://www.uniroma1.it/en
   - type: GitHub
