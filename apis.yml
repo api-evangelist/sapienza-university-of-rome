@@ -1,17 +1,34 @@
 ---
 aid: sapienza-university-of-rome
 name: Sapienza University of Rome
+x-type: university
+x-category: Public Research University
 description: >-
   Sapienza University of Rome (Sapienza Università di Roma) is Italy's largest
-  university and ranked #132 in the QS World University Rankings 2025. Its public
-  machine-readable footprint is centered on research and library data rather than
-  a unified developer portal: the IRIS institutional research catalogue exposes a
-  DSpace OAI-PMH endpoint for harvesting research metadata, and the Sapienza
-  Library System (Sistema Bibliotecario Sapienza) publishes open data and linked
-  data following the 5-star open data model. There is no single official,
-  documented public REST API gateway; identity is federated via the Italian IDEM
-  Shibboleth/SAML federation. A GitHub organization carrying the Sapienza name
-  exists but hosts research and coursework projects rather than official platform APIs.
+  university, a public research institution founded in 1303 and ranked #132 in
+  the QS World University Rankings 2025. It runs no public developer portal, no
+  API gateway and publishes no OpenAPI, and this profile does not pretend
+  otherwise. What it does operate, on its own uniroma1.it hosts, are three
+  genuinely institution-run machine surfaces: an OAI-PMH 2.0 provider on the
+  IRIS institutional research catalogue (iris.uniroma1.it, DSpace-CRIS supplied
+  by CINECA) whose underlying DSpace REST API is closed behind HTTP basic auth;
+  a second, site-wide OAI-PMH 2.0 provider over the 100 open-access journals of
+  Riviste Online SApienza (rosa.uniroma1.it, Open Journal Systems 3.3.0.13),
+  whose OJS REST API v1 answers 403 to anonymous callers; and a Shibboleth SAML
+  2.0 identity provider, entityID https://idp.uniroma1.it/idp/shibboleth,
+  published as machine-readable metadata in the IDEM GARR AAI federation
+  aggregate. Its DataCite registration (provider ROMAUNO, repository
+  CRUI.UNIROMA1, prefix 10.13133, 8,051 DOIs), its Crossref membership (member
+  13551, prefix 10.53131) and its ROR identifier 02be6w209 are verifiable from
+  public registry endpoints. The Sapienza Library System open-data project at
+  sbs.uniroma1.it documents a 5-star / DCAT-AP_IT dataset catalogue, but its one
+  dataset download link is a hard 404 and its linked-data service still says
+  "this website is still under development" — the project has not been updated
+  since 2017 and it is recorded here honestly rather than credited as a live
+  open-data API. The library OPAC runs vendor Sebina software on an institution
+  host with no public API, the course catalogue is a Drupal site with no data
+  interface, and there is no official institutional GitHub organization: the
+  Sapienza-named org on GitHub carries student coursework, not platform code.
 type: Index
 deliveryModel:
   model: saas
@@ -44,40 +61,133 @@ tags:
   - Education
   - Higher Education
   - University
+  - Italy
   - Research
+  - Research Repository
+  - Open Access
   - Open Data
   - Library
   - OAI-PMH
-  - Italy
+  - Identity Federation
+  - Scholarly Publishing
 created: '2026-06-03'
-modified: '2026-06-03'
+modified: '2026-09-01'
 specificationVersion: '0.23'
 apis:
   - aid: sapienza-university-of-rome:iris-oai-pmh
     name: IRIS Research Catalogue OAI-PMH
+    x-operator: institution
     description: >-
-      OAI-PMH 2.0 metadata harvesting interface for IRIS, Sapienza's institutional
-      research information system / repository (DSpace platform developed by CINECA).
-      The endpoint (repositoryName "IRIS - UNIROMA1 - prod") supports standard OAI-PMH
-      verbs (Identify, ListRecords, ListMetadataFormats, etc.) for harvesting Sapienza
-      research-product metadata. Verified live returning valid OAI-PMH 2.0 XML.
+      OAI-PMH 2.0 metadata-harvesting provider for IRIS, Sapienza's institutional
+      research information system and repository, served from the university's own
+      host iris.uniroma1.it. Verified live 2026-09-01 — verb=Identify returns 200
+      text/xml with repositoryName "IRIS - UNIROMA1 - prod", baseURL
+      https://iris.uniroma1.it/oai/request, protocolVersion 2.0, adminEmail
+      gruppo-pubblicazioni@uniroma1.it, earliestDatestamp 2015-05-04T13:12:45Z,
+      deletedRecord transient and granularity YYYY-MM-DDThh:mm:ssZ.
+      verb=ListMetadataFormats returns three prefixes — oai_dc, didl (MPEG-21 DIDL)
+      and ore (OAI-ORE/Atom). verb=ListSets enumerates the Italian research-product
+      typology as community sets (com_11573_784454 "01 Pubblicazione su rivista",
+      com_11573_784455 "02 Pubblicazione su volume", com_11573_784456 "03
+      Monografia", com_11573_784457 "04 Pubblicazione in atti di convegno" and
+      more). verb=ListRecords&metadataPrefix=oai_dc returns real records
+      (oai:iris.uniroma1.it:11573/1753388). The platform is DSpace-CRIS supplied to
+      the Italian university system by CINECA, so the software contract is the
+      vendor's and no spec is saved under this institution — the host, the
+      deployment and the research metadata are Sapienza's. The DSpace REST API on
+      the same host is NOT open: https://iris.uniroma1.it/rest/ returns
+      "HTTP Status 401 - Invalid basic authentication token".
     humanURL: https://www.uniroma1.it/en/pagina/iris-support
     baseURL: https://iris.uniroma1.it/oai/request
-    tags: [ Research, Repository, OAI-PMH, DSpace, Metadata ]
+    tags: [ Research, Research Repository, OAI-PMH, DSpace, Metadata ]
     properties:
       - type: Documentation
         url: https://www.uniroma1.it/en/pagina/iris-support
       - type: Repository
         url: https://iris.uniroma1.it/
-  - aid: sapienza-university-of-rome:library-open-data
-    name: Sapienza Library System Open Data & Linked Data
+      - type: Conformance
+        url: conformance/sapienza-university-of-rome-conformance.yml
+  - aid: sapienza-university-of-rome:rosa-oai-pmh
+    name: Riviste Online SApienza (R.O.SA) OAI-PMH
+    x-operator: institution
     description: >-
-      Open data and linked data publishing from the Sistema Bibliotecario Sapienza
-      (Sapienza Library System), providing library and digital-resource datasets under
-      CC BY 4.0 following the 5-star open data model and a DCAT-AP_IT profile. Datasets
-      are catalogued and downloadable; a linked data service is also published. No
-      formal documented REST API is provided beyond the dataset catalogue and linked
-      data resources.
+      Site-wide OAI-PMH 2.0 provider over Riviste Online SApienza, the university's
+      open-access journal publishing platform, hosted on its own domain at
+      rosa.uniroma1.it. Verified live 2026-09-01 — the index-level endpoint
+      https://rosa.uniroma1.it/rosa04/index/oai?verb=Identify returns 200
+      text/xml with repositoryName "Riviste Online SApienza - R.O.SA - 4",
+      repositoryIdentifier rosa.uniroma1.it, earliestDatestamp 2011-04-02T10:34:31Z,
+      compression gzip/deflate, and a toolkit description naming Open Journal
+      Systems 3.3.0.13 (Public Knowledge Project). verb=ListSets returns 100 sets,
+      one per journal or journal section. Per-journal endpoints are also live, e.g.
+      https://rosa.uniroma1.it/rosa04/annali_di_botanica/oai?verb=Identify (200,
+      repositoryName "Annali di Botanica", adminEmail
+      annalidibotanica@uniroma1.it). The OJS REST API v1 exists on the same host
+      but is closed to anonymous callers:
+      /rosa04/annali_di_botanica/api/v1/issues returns 403 application/json
+      {"error":"api.403.unauthorized"}. OJS is PKP software, so the API contract is
+      PKP's and none is saved here; the deployment, the host and the journals are
+      Sapienza's. The rosa.uniroma1.it root is a soft-404 catch-all — every unknown
+      path returns the 68KB landing page — so the live surface is only reachable
+      under the /rosa04/ base.
+    humanURL: https://rosa.uniroma1.it/
+    baseURL: https://rosa.uniroma1.it/rosa04/index/oai
+    tags: [ Open Access, Scholarly Publishing, OAI-PMH, OJS, Journals ]
+    properties:
+      - type: Documentation
+        url: https://www.openarchives.org/OAI/openarchivesprotocol.html
+      - type: Conformance
+        url: conformance/sapienza-university-of-rome-conformance.yml
+      - type: Authentication
+        url: authentication/sapienza-university-of-rome-authentication.yml
+  - aid: sapienza-university-of-rome:identity-federation
+    name: Sapienza Shibboleth Identity Provider (IDEM GARR AAI)
+    x-operator: federation
+    description: >-
+      Institution-operated Shibboleth SAML 2.0 identity provider, published as
+      machine-readable metadata both directly on the institution's own host and in
+      the IDEM GARR AAI federation aggregate. Verified live 2026-09-01 —
+      https://idp.uniroma1.it/idp/shibboleth returns 200 with an EntitiesDescriptor
+      named urn:mace:shibboleth:uniroma1.it:uniroma1-prod-IDP containing
+      EntityDescriptor entityID="https://idp.uniroma1.it/idp/shibboleth", an
+      IDPSSODescriptor with protocolSupportEnumeration
+      urn:oasis:names:tc:SAML:2.0:protocol, shibmd:Scope "uniroma1.it" and
+      mdui:DisplayName "Sapienza Università di Roma" / "Sapienza University of
+      Rome". The same entityID is present in the IDEM GARR federation aggregate
+      https://md.idem.garr.it/metadata/idem-metadata-sha256.xml (200, 3,054,701
+      bytes, fetched 2026-09-01). A federation is shared by definition, and the IdP
+      behind it is the institution's own — this is recorded as the institution's
+      relationship, not as anyone's contract. It is the strongest machine-readable
+      institution-operated surface Sapienza has and it was absent from the June
+      2026 profile.
+    humanURL: https://idem.garr.it/
+    baseURL: https://idp.uniroma1.it/idp/shibboleth
+    tags: [ Identity Federation, SAML, Shibboleth, Single Sign-On, IDEM GARR ]
+    properties:
+      - type: Documentation
+        url: https://idem.garr.it/
+      - type: Conformance
+        url: conformance/sapienza-university-of-rome-conformance.yml
+  - aid: sapienza-university-of-rome:library-open-data
+    name: Sapienza Library System Open Data & Linked Data (dormant)
+    x-operator: institution
+    description: >-
+      Open-data and linked-data publishing project of the Sistema Bibliotecario
+      Sapienza, on the institution's own host sbs.uniroma1.it, documenting library
+      and digital-resource datasets under CC BY 4.0 against the 5-star open data
+      model and a DCAT-AP_IT profile. The catalogue pages are live and distinct —
+      /data/opendata/ (200), /data/opendata/itrousr-od_2016-Lib_Info (200),
+      /data/opendata/itrousr-od_2017-SDL_2013 (200),
+      /data/opendata/itrousr-od_2017-SimonLib_2015 (200), /data/vocabulary (200) —
+      but the surface does NOT deliver machine-readable data as previously
+      recorded here. The single dataset download link on the site,
+      https://sbs.uniroma1.it/openDataSets/od_2017/itrousr-od_2017-SimonLib_2015_csv.zip,
+      returns a hard 404; the linked-data page states in its own words "Linked data
+      access website — This website is still under development"; there is no SPARQL
+      endpoint (every unknown path under /data/ is a soft-404 returning the same
+      6,761-byte landing page, including /data/sparql and /data/catalogo); and the
+      catalogue is dated January 2017 with a 2019 copyright. Recorded as a real but
+      dormant institutional open-data effort rather than as a callable API.
     humanURL: https://sbs.uniroma1.it/data/opendata/
     tags: [ Open Data, Linked Data, Library, DCAT, CC-BY ]
     properties:
@@ -85,15 +195,90 @@ apis:
         url: https://sbs.uniroma1.it/data/opendata/
       - type: LinkedData
         url: https://sbs.uniroma1.it/data/linkeddata
+  - aid: sapienza-university-of-rome:datacite-registration
+    name: DataCite DOI registration (provider ROMAUNO / repository CRUI.UNIROMA1)
+    x-operator: registry
+    description: >-
+      Sapienza is a registered DataCite member and DOI registrant — a fact about the
+      institution, not a contract it operates. Verified live 2026-09-01 against the
+      DataCite REST API: https://api.datacite.org/providers/romauno returns 200 with
+      name "Sapienza Università di Roma", symbol ROMAUNO, memberType
+      consortium_organization (under the Italian CRUI consortium), country IT,
+      website https://www.uniroma1.it/, created 2021-10-04, isActive true. One
+      repository client is registered beneath it —
+      https://api.datacite.org/clients/crui.uniroma1, "Università degli studi di
+      Roma La Sapienza", symbol CRUI.UNIROMA1, clientType repository, created
+      2012-09-19, isActive true — holding 8,051 DOIs under prefix 10.13133 that
+      resolve to Sapienza's own hosts (rosa.uniroma1.it, editricesapienza.it). The
+      DataCite API contract belongs to DataCite and is not saved here; the
+      membership is Sapienza's and is recorded.
+    humanURL: https://commons.datacite.org/repositories/crui.uniroma1
+    baseURL: https://api.datacite.org/clients/crui.uniroma1
+    tags: [ DataCite, DOI, Registry, Persistent Identifiers, Research Data ]
+    properties:
+      - type: Conformance
+        url: conformance/sapienza-university-of-rome-conformance.yml
+  - aid: sapienza-university-of-rome:crossref-membership
+    name: Crossref membership (member 13551, prefix 10.53131)
+    x-operator: registry
+    description: >-
+      Sapienza is a Crossref member and DOI depositor. Verified live 2026-09-01 —
+      https://api.crossref.org/members/13551 returns 200 with primary-name "Sapienza
+      University of Rome", location "Rome, Italy", prefix 10.53131 and 250 deposited
+      DOIs (55 current, 195 backfile). Two other Crossref members carry the Sapienza
+      name and are NOT this institution — "Sapienza Grupo Editorial" (35383) and
+      "Sapienza: International Journal of Interdisciplinary Studies" (29301) — and
+      are excluded here. The Crossref API is Crossref's contract; only the
+      membership is recorded.
+    humanURL: https://www.crossref.org/
+    baseURL: https://api.crossref.org/members/13551
+    tags: [ Crossref, DOI, Registry, Scholarly Publishing, Persistent Identifiers ]
+    properties:
+      - type: Conformance
+        url: conformance/sapienza-university-of-rome-conformance.yml
+  - aid: sapienza-university-of-rome:ror-registration
+    name: ROR organization identifier 02be6w209
+    x-operator: registry
+    description: >-
+      Sapienza is registered in the Research Organization Registry with ROR ID
+      https://ror.org/02be6w209, names "Sapienza University of Rome" / "Sapienza –
+      Università di Roma", and website https://www.uniroma1.it. Verified live
+      2026-09-01 via https://api.ror.org/v2/organizations?query=Sapienza+University+of+Rome
+      (200) and https://ror.org/02be6w209 (200). Distinct from Unitelma Sapienza
+      (https://ror.org/04dfrdm61), a separate telematic university. ROR's API is
+      ROR's; the registration is Sapienza's.
+    humanURL: https://ror.org/02be6w209
+    baseURL: https://api.ror.org/v2/organizations/02be6w209
+    tags: [ ROR, Registry, Persistent Identifiers, Research ]
 common:
-  - type: DomainSecurity
-    url: security/sapienza-university-of-rome-domain-security.yml
   - type: Website
     url: https://www.uniroma1.it/en
+  - type: ResearchRepository
+    url: https://iris.uniroma1.it/
+  - type: IdentityFederation
+    url: https://idp.uniroma1.it/idp/shibboleth
+  - type: OpenData
+    url: https://sbs.uniroma1.it/data/opendata/
+  - type: LibraryCatalog
+    url: https://opac.uniroma1.it/SebinaOpacRMS/.do?sysb=univ
+  - type: CourseCatalog
+    url: https://corsidilaurea.uniroma1.it
+  - type: Documentation
+    url: https://www.uniroma1.it/en/pagina/iris-support
+  - type: Conformance
+    url: conformance/sapienza-university-of-rome-conformance.yml
+  - type: Authentication
+    url: authentication/sapienza-university-of-rome-authentication.yml
+  - type: PrivacyPolicy
+    url: https://www.uniroma1.it/it/pagina/piano-privacy-sapienza
+  - type: Accessibility
+    url: https://www.uniroma1.it/en/pagina/accessibility
   - type: GitHub
     url: https://github.com/Sapienza-University-Rome
   - type: LinkedIn
     url: https://www.linkedin.com/school/sapienza-universita-di-roma/
+  - type: DomainSecurity
+    url: security/sapienza-university-of-rome-domain-security.yml
   - type: Plans
     url: plans/sapienza-university-of-rome-plans-pricing.yml
   - type: RateLimits
@@ -102,6 +287,92 @@ common:
     url: finops/sapienza-university-of-rome-finops.yml
   - type: Review
     url: review.yml
+x-coverage:
+  state: covered
+  reason: covered
+  detail: >-
+    Three institution-operated machine surfaces were found and verified live on
+    2026-09-01 — an OAI-PMH 2.0 provider on the IRIS research catalogue
+    (iris.uniroma1.it), a second site-wide OAI-PMH 2.0 provider over 100
+    open-access journals on Riviste Online SApienza (rosa.uniroma1.it, OJS
+    3.3.0.13), and a Shibboleth SAML 2.0 identity provider published in the IDEM
+    GARR AAI federation aggregate — plus four education-regime domain standards
+    evidenced from public endpoints (oai-pmh, shibboleth, saml, datacite) and a
+    fifth (crossref) from the Crossref member API. Sapienza publishes no OpenAPI,
+    no developer portal, no self-service key issuance and no rate-limit or terms
+    documentation for any of them, and no contract has been generated to stand in
+    for one: DSpace-CRIS (CINECA) and OJS (PKP) contracts are product contracts
+    shared by every deployment of that software and belong in the vendors' own
+    repos, not here. Two REST surfaces exist on institution hosts and are both
+    closed — iris.uniroma1.it/rest/ returns 401 basic-auth, and the OJS
+    /api/v1/ endpoints return 403 api.403.unauthorized — recorded in
+    authentication/ rather than counted as callable. The Sistema Bibliotecario
+    open-data project is documented but dormant: its only dataset download 404s
+    and its linked-data service self-declares "still under development". The
+    library OPAC is vendor Sebina software on an institution host with no public
+    API; the course catalogue is Drupal HTML with no data interface; no
+    institutional CKAN, SPARQL, transit, dining or HPC allocation API was found;
+    and no official institutional GitHub organization exists. No Figshare, Pure,
+    Ex Libris, Symplectic or Dataverse contract was found or added.
+  generated: '2026-09-01'
+  method: probed
+  evidence:
+    - url: https://iris.uniroma1.it/oai/request?verb=Identify
+      status: 200
+    - url: https://iris.uniroma1.it/oai/request?verb=ListMetadataFormats
+      status: 200
+    - url: https://iris.uniroma1.it/oai/request?verb=ListSets
+      status: 200
+    - url: https://iris.uniroma1.it/oai/request?verb=ListRecords&metadataPrefix=oai_dc
+      status: 200
+    - url: https://iris.uniroma1.it/rest/
+      status: 401
+    - url: https://rosa.uniroma1.it/rosa04/index/oai?verb=Identify
+      status: 200
+    - url: https://rosa.uniroma1.it/rosa04/index/oai?verb=ListSets
+      status: 200
+    - url: https://rosa.uniroma1.it/rosa04/annali_di_botanica/oai?verb=Identify
+      status: 200
+    - url: https://rosa.uniroma1.it/rosa04/annali_di_botanica/api/v1/issues
+      status: 403
+    - url: https://idp.uniroma1.it/idp/shibboleth
+      status: 200
+    - url: https://md.idem.garr.it/metadata/idem-metadata-sha256.xml
+      status: 200
+    - url: https://api.datacite.org/providers/romauno
+      status: 200
+    - url: https://api.datacite.org/clients/crui.uniroma1
+      status: 200
+    - url: https://api.crossref.org/members/13551
+      status: 200
+    - url: https://ror.org/02be6w209
+      status: 200
+    - url: https://sbs.uniroma1.it/data/opendata/
+      status: 200
+    - url: https://sbs.uniroma1.it/data/linkeddata
+      status: 200
+    - url: https://sbs.uniroma1.it/openDataSets/od_2017/itrousr-od_2017-SimonLib_2015_csv.zip
+      status: 404
+    - url: https://opac.uniroma1.it/SebinaOpacRMS/.do?sysb=univ
+      status: 200
+    - url: https://corsidilaurea.uniroma1.it
+      status: 200
+    - url: https://commons.datacite.org/repositories/crui.uniroma1
+      status: 429
+    - url: https://iris.uniroma1.it/server/api
+      status: 200
+    - url: https://sbs.uniroma1.it/data/sparql
+      status: 200
+    - url: https://www.uniroma1.it/it/pagina/piano-privacy-sapienza
+      status: 200
+    - url: https://www.uniroma1.it/llms.txt
+      status: 404
+    - url: https://api.uniroma1.it
+      status: 0
+    - url: https://data.uniroma1.it
+      status: 0
+    - url: https://dati.uniroma1.it
+      status: 0
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
