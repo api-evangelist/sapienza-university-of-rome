@@ -1,0 +1,150 @@
+generated: '2026-09-01'
+method: probed
+source: >-
+  Live probes of Sapienza University of Rome institution-operated hosts on 2026-09-01
+  (iris.uniroma1.it, rosa.uniroma1.it, idp.uniroma1.it, sbs.uniroma1.it, opac.uniroma1.it,
+  corsidilaurea.uniroma1.it), plus the IDEM GARR AAI SAML metadata aggregate and the DataCite,
+  Crossref and ROR REST APIs.
+docs: https://www.uniroma1.it/en/pagina/iris-support
+note: >-
+  Conformance against the Kin Score `education` regime standards[] — scim, lti, oneroster, ed-fi,
+  caliper, qti, oai-pmh, shibboleth, saml, orcid, datacite, crossref. Every entry below was reached
+  by fetching the named URL and reading the response body; none is a prose claim from a university
+  web page. Standards the institution does not publicly expose are recorded as conforms:false with
+  the negative probe that established it, and are never inferred from the presence of a vendor
+  product. The two OAI-PMH providers and the Shibboleth IdP are institution-operated on uniroma1.it
+  hosts; the DataCite and Crossref entries are registry MEMBERSHIPS, which are facts about the
+  institution rather than contracts it runs, and the registries' own APIs are deliberately NOT saved
+  under this institution. No Figshare, Elsevier Pure, Ex Libris, Symplectic or Dataverse surface was
+  used as evidence, and none exists in this repo.
+standards:
+- id: oai-pmh
+  conforms: true
+  operator: institution
+  evidence: >-
+    Two live, independent OAI-PMH 2.0 providers on the institution's own hosts. (1) IRIS research
+    catalogue: https://iris.uniroma1.it/oai/request?verb=Identify returns 200 text/xml with
+    repositoryName "IRIS - UNIROMA1 - prod", baseURL https://iris.uniroma1.it/oai/request,
+    protocolVersion 2.0, adminEmail gruppo-pubblicazioni@uniroma1.it, earliestDatestamp
+    2015-05-04T13:12:45Z, deletedRecord transient, granularity YYYY-MM-DDThh:mm:ssZ and an
+    oai-identifier description with repositoryIdentifier iris.uniroma1.it.
+    verb=ListMetadataFormats returns three prefixes — oai_dc
+    (http://www.openarchives.org/OAI/2.0/oai_dc.xsd), didl (urn:mpeg:mpeg21:2002:02-DIDL-NS) and
+    ore (Atom/OAI-ORE). verb=ListSets enumerates community sets com_11573_784454 … com_11573_784457
+    for the Italian research-product typology; verb=ListRecords&metadataPrefix=oai_dc returns
+    302,804 bytes of real records including oai:iris.uniroma1.it:11573/1753388. (2) Riviste Online
+    SApienza: https://rosa.uniroma1.it/rosa04/index/oai?verb=Identify returns 200 text/xml with
+    repositoryName "Riviste Online SApienza - R.O.SA - 4", repositoryIdentifier rosa.uniroma1.it,
+    earliestDatestamp 2011-04-02T10:34:31Z, compression gzip and deflate, sampleIdentifier
+    oai:rosa.uniroma1.it:article/1 and a toolkit description naming Open Journal Systems 3.3.0.13
+    (Public Knowledge Project). verb=ListSets returns 100 <set> elements, one per journal or
+    section; per-journal endpoints such as
+    https://rosa.uniroma1.it/rosa04/annali_di_botanica/oai?verb=Identify also return 200
+    (repositoryName "Annali di Botanica", adminEmail annalidibotanica@uniroma1.it).
+- id: shibboleth
+  conforms: true
+  operator: institution
+  evidence: >-
+    Institution-operated Shibboleth Identity Provider, published directly on the institution's own
+    host. https://idp.uniroma1.it/idp/shibboleth returns 200 (6,347 bytes) with an EntitiesDescriptor
+    Name="urn:mace:shibboleth:uniroma1.it:uniroma1-prod-IDP", validUntil 2030-12-31T08:00:01Z,
+    containing EntityDescriptor entityID="https://idp.uniroma1.it/idp/shibboleth" with an
+    IDPSSODescriptor, a shibmd:Scope regexp="false" of "uniroma1.it", mdui:DisplayName "Sapienza
+    Università di Roma" (it) / "Sapienza University of Rome" (en), mdui:Description "Identity
+    Provider Sapienza Università di Roma", mdui:InformationURL
+    https://web.uniroma1.it/infosapienza/node/5787/ and mdui:Logo entries under
+    https://idp.uniroma1.it/idp/images/. The same entityID is registered in the IDEM GARR AAI
+    national federation aggregate: https://md.idem.garr.it/metadata/idem-metadata-sha256.xml
+    returns 200 (3,054,701 bytes, fetched 2026-09-01) and contains
+    entityID="https://idp.uniroma1.it/idp/shibboleth" (22 uniroma1 string matches in the aggregate).
+- id: saml
+  conforms: true
+  operator: institution
+  evidence: >-
+    SAML 2.0 metadata in the urn:oasis:names:tc:SAML:2.0:metadata namespace, served by the
+    institution at https://idp.uniroma1.it/idp/shibboleth (200) and carried in the IDEM GARR
+    aggregate. The IDPSSODescriptor declares
+    protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol" and the document imports the
+    SAML metadata-UI (urn:oasis:names:tc:SAML:metadata:ui), Shibboleth metadata
+    (urn:mace:shibboleth:metadata:1.0), XML Signature and XML Encryption schemas. This is the
+    machine-readable identity surface behind Sapienza single sign-on for IRIS, the library systems
+    and the student portal.
+- id: datacite
+  conforms: true
+  operator: registry
+  evidence: >-
+    Registered DataCite member and DOI registrant. https://api.datacite.org/providers/romauno
+    returns 200 with name "Sapienza Università di Roma", displayName the same, symbol ROMAUNO,
+    memberType consortium_organization (Italian CRUI consortium), country IT, website
+    https://www.uniroma1.it/, created 2021-10-04T09:38:41Z, isActive true. One repository client is
+    registered beneath it: https://api.datacite.org/clients/crui.uniroma1 returns 200 with name
+    "Università degli studi di Roma La Sapienza", symbol CRUI.UNIROMA1, clientType repository,
+    created 2012-09-19T16:10:40Z, isActive true.
+    https://api.datacite.org/dois?client-id=crui.uniroma1 reports meta.total 8051, and the returned
+    DOIs use prefix 10.13133 and resolve to Sapienza's own hosts — 10.13133/2532-5876/19307 →
+    https://rosa.uniroma1.it/organisms/article/view/19307, 10.13133/9788893773041 →
+    https://www.editricesapienza.it/book/9187. The DataCite API itself is DataCite's contract and is
+    not saved under this institution; only the membership is recorded.
+- id: crossref
+  conforms: true
+  operator: registry
+  evidence: >-
+    Registered Crossref member and DOI depositor. https://api.crossref.org/members/13551 returns 200
+    with primary-name "Sapienza University of Rome", location "Rome, Italy", prefixes ["10.53131"]
+    and counts {current-dois 55, backfile-dois 195, total-dois 250}. Two other Crossref members carry
+    the Sapienza name and are explicitly NOT this institution — 35383 "Sapienza Grupo Editorial"
+    (713 DOIs) and 29301 "Sapienza: International Journal of Interdisciplinary Studies" (629 DOIs).
+    The Crossref API is Crossref's contract and is not saved here.
+- id: orcid
+  conforms: false
+  operator: none
+  evidence: >-
+    No public ORCID integration surface was found. The IRIS OAI-PMH provider exposes only oai_dc,
+    didl and ore metadata prefixes, and a full ListRecords response
+    (https://iris.uniroma1.it/oai/request?verb=ListRecords&metadataPrefix=oai_dc, 200, 302,804
+    bytes) contains zero case-insensitive occurrences of "orcid"; the IRIS landing page
+    https://iris.uniroma1.it/ (200) likewise contains none. The DSpace REST API that would carry an
+    orcid.application-client-id configuration property is closed —
+    https://iris.uniroma1.it/rest/ returns "HTTP Status 401 - Invalid basic authentication token".
+    Sapienza researchers hold ORCID iDs individually, but no institution-operated, machine-readable
+    ORCID surface is publicly exposed, so this is recorded false rather than assumed from the
+    presence of DSpace-CRIS.
+- id: scim
+  conforms: false
+  operator: none
+  evidence: >-
+    No SCIM surface. No urn:ietf:params:scim schema URN appears on any probed Sapienza host, no
+    /scim/v2 path was found, and no OpenAPI or provisioning contract is published anywhere on the
+    institution's public surface. Identity provisioning runs behind the Shibboleth IdP and INFOSTUD
+    single sign-on, neither of which exposes a public provisioning API.
+- id: lti
+  conforms: false
+  operator: none
+  evidence: >-
+    No IMS/1EdTech LTI surface is publicly exposed. No LTI tool-configuration, JWKS or
+    /.well-known/ launch document was found on any uniroma1.it host probed; the e-learning
+    platforms are behind institutional SSO and were not publicly reachable.
+- id: oneroster
+  conforms: false
+  operator: none
+  evidence: >-
+    No OneRoster surface. No /ims/oneroster/ path exists on any probed host and the course
+    catalogue at https://corsidilaurea.uniroma1.it (200) is a Drupal 7 HTML site with no data
+    interface, JSON export or roster endpoint.
+- id: ed-fi
+  conforms: false
+  operator: none
+  evidence: >-
+    No Ed-Fi surface. Ed-Fi is a US K-12 / state-education-agency data standard with no adoption in
+    the Italian higher-education system; nothing on any probed Sapienza host references it.
+- id: caliper
+  conforms: false
+  operator: none
+  evidence: >-
+    No IMS Caliper Analytics endpoint or event store is publicly exposed on any uniroma1.it host.
+- id: qti
+  conforms: false
+  operator: none
+  evidence: >-
+    No QTI assessment-interoperability surface is publicly exposed; assessment systems sit behind
+    institutional SSO.

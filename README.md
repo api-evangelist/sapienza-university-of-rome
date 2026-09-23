@@ -64,23 +64,45 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Sapienza University of Rome (Sapienza Università di Roma) is Italy's largest university, ranked #132 in the QS World University Rankings 2025. This repository catalogs its public developer and API footprint as an [APIs.json](http://apisjson.org) profile. Sapienza does not operate a single unified public developer portal; its verified machine-readable surface is centered on research and library data — the IRIS DSpace research catalogue (OAI-PMH) and the Sapienza Library System open/linked data publishing.
+Sapienza University of Rome (Sapienza Università di Roma) is Italy's largest university, founded in 1303 and ranked #132 in the QS World University Rankings 2025. This repository catalogs its public developer and API footprint as an [APIs.json](http://apisjson.org) profile. Sapienza operates **no public developer portal, no API gateway and publishes no OpenAPI**, and this profile does not pretend otherwise. What it does operate, on its own `uniroma1.it` hosts, are three verified institution-run machine surfaces — two OAI-PMH 2.0 providers and a Shibboleth SAML 2.0 identity provider — alongside three registry memberships.
 
 - APIs.json: https://raw.githubusercontent.com/api-evangelist/sapienza-university-of-rome/refs/heads/main/apis.yml
 - Run it with Naftiko: https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=sapienza-university-of-rome-api-evangelist&utm_content=repo
 
 ## Type
 
-- Index / Consumer / 3rd-Party
+- University / Public Research University — Index / Consumer / 3rd-Party
 
 ## Tags
 
-Education, Higher Education, University, Research, Open Data, Library, OAI-PMH, Italy
+Education, Higher Education, University, Italy, Research, Research Repository, Open Access, Open Data, Library, OAI-PMH, Identity Federation, Scholarly Publishing
 
-## APIs
+## Surfaces
 
-- **IRIS Research Catalogue OAI-PMH** — OAI-PMH 2.0 metadata harvesting for Sapienza's institutional research repository (DSpace/CINECA). Base URL `https://iris.uniroma1.it/oai/request`. Docs: https://www.uniroma1.it/en/pagina/iris-support
-- **Sapienza Library System Open Data & Linked Data** — Library and digital-resource open data (CC BY 4.0, 5-star / DCAT-AP_IT) and linked data. Docs: https://sbs.uniroma1.it/data/opendata/
+Every surface carries an `x-operator` saying **who runs the thing it describes** — for a university that is almost never the same answer as who the data belongs to.
+
+**Institution-operated**
+
+- **IRIS Research Catalogue OAI-PMH** (`institution`) — OAI-PMH 2.0 provider for Sapienza's institutional research catalogue. `https://iris.uniroma1.it/oai/request` — `verb=Identify` returns 200 with repositoryName "IRIS - UNIROMA1 - prod"; three metadata prefixes (oai_dc, didl, ore). The platform is DSpace-CRIS supplied by CINECA, so no spec is saved here. The DSpace REST API on the same host returns **401 basic-auth**.
+- **Riviste Online SApienza (R.O.SA) OAI-PMH** (`institution`) — site-wide OAI-PMH 2.0 provider over 100 open-access journal sets. `https://rosa.uniroma1.it/rosa04/index/oai` — Open Journal Systems 3.3.0.13 (PKP). The OJS REST API v1 on the same host returns **403 `api.403.unauthorized`**.
+- **Sapienza Library System Open Data & Linked Data** (`institution`, **dormant**) — a documented 5-star / DCAT-AP_IT dataset catalogue at `sbs.uniroma1.it` whose one dataset download link **404s** and whose linked-data page says in its own words "this website is still under development". Last updated 2017. Recorded honestly rather than credited as a live open-data API.
+
+**Federation**
+
+- **Sapienza Shibboleth Identity Provider** (`federation`) — `https://idp.uniroma1.it/idp/shibboleth`, scope `uniroma1.it`, DisplayName "Sapienza Università di Roma", registered in the IDEM GARR AAI national federation aggregate. A federation is shared by definition and the IdP behind it is the institution's own.
+
+**Registry memberships** (facts about the institution, not contracts it runs)
+
+- **DataCite** (`registry`) — provider `ROMAUNO`, repository `CRUI.UNIROMA1`, prefix 10.13133, 8,051 DOIs resolving to Sapienza hosts.
+- **Crossref** (`registry`) — member 13551, prefix 10.53131, 250 DOIs.
+- **ROR** (`registry`) — https://ror.org/02be6w209.
+
+## Conformance (Kin Score `education` regime)
+
+Five of the twelve education-regime standards are evidenced from live endpoints: **oai-pmh**, **shibboleth**, **saml**, **datacite**, **crossref**. `orcid`, `scim`, `lti`, `oneroster`, `ed-fi`, `caliper` and `qti` are recorded `conforms: false` with the negative probe that established each.
+
+- Conformance: [conformance/sapienza-university-of-rome-conformance.yml](conformance/sapienza-university-of-rome-conformance.yml)
+- Authentication: [authentication/sapienza-university-of-rome-authentication.yml](authentication/sapienza-university-of-rome-authentication.yml)
 
 ## Plans / Rate Limits / FinOps
 
@@ -91,22 +113,31 @@ Education, Higher Education, University, Research, Open Data, Library, OAI-PMH, 
 ## Timestamps
 
 - Created: 2026-06-03
-- Modified: 2026-06-03
+- Modified: 2026-09-01
 
 ## Common Properties
 
 - Website: https://www.uniroma1.it/en
+- Research Repository: https://iris.uniroma1.it/
+- Identity Federation: https://idp.uniroma1.it/idp/shibboleth
+- Open Data: https://sbs.uniroma1.it/data/opendata/
+- Library Catalog: https://opac.uniroma1.it/SebinaOpacRMS/.do?sysb=univ
+- Course Catalog: https://corsidilaurea.uniroma1.it
+- Privacy Policy: https://www.uniroma1.it/it/pagina/piano-privacy-sapienza
+- Accessibility: https://www.uniroma1.it/en/pagina/accessibility
 - GitHub: https://github.com/Sapienza-University-Rome
 - LinkedIn: https://www.linkedin.com/school/sapienza-universita-di-roma/
 - Review: [review.yml](review.yml)
 
 ## Notes
 
-- Only live-probed or page-confirmed properties are cataloged; no endpoints were fabricated.
-- The IRIS OAI-PMH `request` endpoint was verified live returning valid OAI-PMH 2.0 XML.
+- Only live-probed or page-confirmed properties are cataloged; **no endpoints were fabricated and no vendor contract is saved under this institution.**
+- No Figshare, Elsevier Pure, Ex Libris, Symplectic or Dataverse contract was found or added. The DSpace-CRIS and OJS contracts are product contracts shared by every deployment of that software and belong in the vendors' own repos.
+- The `rosa.uniroma1.it` root is a soft-404 catch-all; the live OAI-PMH surface is only reachable under the `/rosa04/` base. Every unknown path under `sbs.uniroma1.it/data/` is likewise a soft-404 returning the same landing page.
+- The library OPAC runs vendor Sebina software on an institution host with no public API; the course catalogue is a Drupal 7 site with no data interface.
+- There is **no official institutional GitHub organization** — the "Sapienza-University-Rome" org hosts student coursework, not platform code.
+- No institutional CKAN, SPARQL, transit, dining, room-booking or HPC allocation API was found.
 - The alternate IRIS `oai/openaire4` path did not resolve during probing and was left out as unverified.
-- The "Sapienza-University-Rome" GitHub org hosts research/coursework projects, not official platform APIs.
-- Identity is federated via the Italian IDEM Shibboleth/SAML federation; no public API docs are exposed.
 
 ## Maintainers
 
